@@ -24,7 +24,7 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>();
-            services.AddCors();
+           
             services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.IgnoreNullValues = true);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen();
@@ -36,6 +36,9 @@ namespace WebApi
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IBusinessServicesService, BusinessServicesService>();
+            services.AddScoped<IProvidersService, ProvidersService>();
+
+            services.AddCors();
         }
 
         // configure the HTTP request pipeline
@@ -50,8 +53,9 @@ namespace WebApi
 
             app.UseRouting();
 
+            //app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyHeader());
             // global cors policy
-            app.UseCors(x => x
+            app.UseCors(x => x.WithOrigins("http://localhost:3000")
                 .SetIsOriginAllowed(origin => true)
                 .AllowAnyMethod()
                 .AllowAnyHeader()

@@ -9,6 +9,7 @@ namespace WebApi.Helpers
     {
         public DbSet<Account> Accounts { get; set; }
         public DbSet<BusinessServiceModel> BusinessServices { get; set; }
+        public DbSet<ProviderModel> ProviderServices { get; set; }
         private readonly IConfiguration Configuration;
 
         public DataContext(IConfiguration configuration)

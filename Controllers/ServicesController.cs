@@ -50,9 +50,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> PutBusinessService(int id, BusinessServiceModel businessService)
         {
             businessService.id = id;
-
             _context.Entry(businessService).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -68,7 +66,6 @@ namespace WebApi.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
 
