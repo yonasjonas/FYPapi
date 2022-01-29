@@ -37,6 +37,9 @@ namespace WebApi
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IBusinessServicesService, BusinessServicesService>();
             services.AddScoped<IProvidersService, ProvidersService>();
+            services.AddScoped<IBusinesses, Businesses>();
+            services.AddScoped<IWidgetsService, WidgetsService>();
+            services.AddScoped<IBusinessManagers, BusinessManagers>();
 
             services.AddCors();
         }
