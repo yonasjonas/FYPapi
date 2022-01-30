@@ -274,11 +274,25 @@ namespace WebApi.Services
 
         private (RefreshToken, Account) getRefreshToken(string token)
         {
-            var account = _context.Accounts.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
-            if (account == null) throw new AppException("Invalid token");
-            var refreshToken = account.RefreshTokens.Single(x => x.Token == token);
+            try
+            {
+                var account = _context.Accounts.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+                if (account == null) {
+                    throw new AppException("Invalid token");
+                }
+                var refreshToken = account.RefreshTokens.Single(x => x.Token == token);
             if (!refreshToken.IsActive) throw new AppException("Invalid token");
             return (refreshToken, account);
+            }
+                
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+            
+            
+            
         }
 
         private string generateJwtToken(Account account)

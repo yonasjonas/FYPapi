@@ -30,7 +30,7 @@ namespace WebApi.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     email = table.Column<string>(type: "nvarchar(100)", nullable: true),
                     password = table.Column<string>(type: "nvarchar(250)", nullable: true),
-                    activated = table.Column<int>(type: "boolean", nullable: false),
+                    activated = table.Column<string>(type: "nvarchar(250)", nullable: true),
                     serviceId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

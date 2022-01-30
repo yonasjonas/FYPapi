@@ -10,8 +10,8 @@ using WebApi.Helpers;
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220129190043_allmaintable2")]
-    partial class allmaintable2
+    [Migration("20220129224425_allmaintables")]
+    partial class allmaintables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,8 +107,8 @@ namespace WebApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("activated")
-                        .HasColumnType("bit");
+                    b.Property<string>("activated")
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(100)");
