@@ -20,7 +20,10 @@ namespace WebApi.Models
 
         [Column(TypeName = "nvarchar(250)")]
         public string businessCategory { get; set; }
-        
+
+        [Column(TypeName = "text")]
+        public string description { get; set; }
+
         [Column(TypeName = "nvarchar(250)")]
         public string imagePath { get; set; }
 

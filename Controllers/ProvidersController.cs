@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Helpers;
@@ -81,6 +81,38 @@ namespace WebApi.Controllers
             }
             return NoContent();
         }
+
+        //[HttpPost("image/upload")]
+        //public async Task<IActionResult> UploadDocument(
+        //[FromHeader] String documentType,
+        //[FromForm] IFormFile file
+        //)
+        //{
+        //    // TODO: handle file upload  
+        //    return await Task.FromResult(Ok());
+        //}
+
+        [HttpPost("image/file")]
+        public ActionResult PostImage([FromForm] FileModel file) 
+        {
+            try
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", file.FileName);
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    file.FormFile.CopyTo(stream);
+                }
+                return StatusCode(StatusCodes.Status201Created);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError); ;
+            }
+
+        }
+
+
 
         // POST: api/ProviderServices
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
