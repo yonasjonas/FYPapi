@@ -12,6 +12,10 @@ using System.Text;
 using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Models.Accounts;
+using Microsoft.AspNetCore.Mvc;
+using WebApi.Models;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Services
 {
@@ -110,6 +114,30 @@ namespace WebApi.Services
             refreshToken.RevokedByIp = ipAddress;
             _context.Update(account);
             _context.SaveChanges();
+        }
+
+        public ActionResult PostImage([FromForm] FileModel file)
+        {
+            try
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", file.FileName);
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    file.FormFile.CopyTo(stream);
+                }
+                return StatusCode(StatusCodes.Status201Created);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError); ;
+            }
+
+        }
+
+        private ActionResult StatusCode(object status201Created)
+        {
+            throw new NotImplementedException();
         }
 
         public void Register(RegisterRequest model, string origin)
@@ -277,22 +305,23 @@ namespace WebApi.Services
             try
             {
                 var account = _context.Accounts.SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
-                if (account == null) {
+                if (account == null)
+                {
                     throw new AppException("Invalid token");
                 }
                 var refreshToken = account.RefreshTokens.Single(x => x.Token == token);
-            if (!refreshToken.IsActive) throw new AppException("Invalid token");
-            return (refreshToken, account);
+                if (!refreshToken.IsActive) throw new AppException("Invalid token");
+                return (refreshToken, account);
             }
-                
+
             catch (System.Exception)
             {
-                
+
                 throw;
             }
-            
-            
-            
+
+
+
         }
 
         private string generateJwtToken(Account account)
@@ -322,8 +351,8 @@ namespace WebApi.Services
 
         private void removeOldRefreshTokens(Account account)
         {
-            account.RefreshTokens.RemoveAll(x => 
-                !x.IsActive && 
+            account.RefreshTokens.RemoveAll(x =>
+                !x.IsActive &&
                 x.Created.AddDays(_appSettings.RefreshTokenTTL) <= DateTime.UtcNow);
         }
 

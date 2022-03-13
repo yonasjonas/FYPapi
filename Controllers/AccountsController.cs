@@ -60,6 +60,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("register")]
+
         public IActionResult Register(RegisterRequest model)
         {
             _accountService.Register(model, Request.Headers["origin"]);

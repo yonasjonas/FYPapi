@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Models.Accounts
@@ -5,17 +6,19 @@ namespace WebApi.Models.Accounts
     public class RegisterRequest
     {
         [Required]
-        public string Title { get; set; }
-
-        [Required]
-        public string FirstName { get; set; }
-
-        [Required]
-        public string LastName { get; set; }
+        public string BusinessName { get; set; }
 
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        [Required]
+        public string Phone { get; set; }
+        public string Description { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string County { get; set; }
+        public string Country { get; set; }
 
         [Required]
         [MinLength(6)]

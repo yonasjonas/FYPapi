@@ -9,17 +9,29 @@ namespace WebApi.Entities
 
         public int Id { get; set; }
 
-        [Column(TypeName = "nvarchar(250)")]
-        public string Title { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public string BusinessName { get; set; }
 
-        [Column(TypeName = "nvarchar(250)")]
-        public string FirstName { get; set; }
-
-        [Column(TypeName = "nvarchar(250)")]
-        public string LastName { get; set; }
-        [Column(TypeName = "nvarchar(250)")]
+        [Column(TypeName = "nvarchar(100)")]
         public string Email { get; set; }
+
         [Column(TypeName = "nvarchar(250)")]
+        public string Phone { get; set; }
+
+        [Column(TypeName = "text")]
+        public string Description { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string Address1 { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string Address2 { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string County { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string Country { get; set; }
         public string PasswordHash { get; set; }
 
         public bool AcceptTerms { get; set; }
@@ -42,9 +54,56 @@ namespace WebApi.Entities
         public DateTime? Updated { get; set; }
         public List<RefreshToken> RefreshTokens { get; set; }
 
-        public bool OwnsToken(string token) 
+        public bool OwnsToken(string token)
         {
             return this.RefreshTokens?.Find(x => x.Token == token) != null;
         }
     }
 }
+
+/*
+ [Key]
+        public int id { get; set; }
+
+        [Column(TypeName = "nvarchar(100)")]
+        public string BusinessName { get; set; }
+
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string Phone { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string profileImagePath { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string coverImagePath { get; set; }
+
+        [Column(TypeName = "text")]
+        public string description { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string address1 { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string address2 { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string county { get; set; }
+
+        [Column(TypeName = "nvarchar(250)")]
+        public string country { get; set; }
+
+        [Required]
+        [EnumDataType(typeof(Role))]
+        public string Role { get; set; }        
+
+        [Required]
+        [MinLength(6)]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare("Password")]
+        public string ConfirmPassword { get; set; }
+ */
