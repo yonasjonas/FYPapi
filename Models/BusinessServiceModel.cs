@@ -24,6 +24,8 @@ namespace WebApi.Models
 
         public int businessId { get; set; }
 
+        public string providerId { get; set; }
+
     }
 
 }

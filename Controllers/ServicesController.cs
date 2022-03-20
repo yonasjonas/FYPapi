@@ -78,7 +78,9 @@ namespace WebApi.Controllers
             _context.BusinessServices.Add(businessService);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBusinessService", new { id = businessService.id }, businessService);
+            var local = CreatedAtAction("GetBusinessService", new { id = businessService.id }, businessService);
+
+            return local;
         }
 
         // DELETE: api/BusinessServices/5

@@ -14,6 +14,8 @@ namespace WebApi.Helpers
         public DbSet<WidgetModel> Widget { get; set; }
         public DbSet<BusinessManagerModel> BusinessManager { get; set; }
         public DbSet<BookingsModel> Booking { get; set; }
+        public DbSet<FileModel> FileUpload { get; set; }
+
         private readonly IConfiguration Configuration;
 
         public DataContext(IConfiguration configuration)

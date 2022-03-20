@@ -44,6 +44,8 @@ namespace WebApi
             services.AddScoped<IBusinesses, Businesses>();
             services.AddScoped<IWidgetsService, WidgetsService>();
             services.AddScoped<IBusinessManagers, BusinessManagers>();
+            services.AddScoped<IFileUploadService, FileUploadService>();
+
 
             services.AddCors();
         }

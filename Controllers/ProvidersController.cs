@@ -123,7 +123,7 @@ namespace WebApi.Controllers
             _context.ProviderServices.Add(providerService);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProvider", new { id = providerService.id }, providerService);
+            return Ok();
         }
 
         // DELETE: api/ProviderServices/5

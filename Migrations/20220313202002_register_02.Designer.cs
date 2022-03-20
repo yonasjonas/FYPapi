@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Helpers;
 
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220313202002_register_02")]
+    partial class register_02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,8 +179,8 @@ namespace WebApi.Migrations
                     b.Property<int>("price")
                         .HasColumnType("int");
 
-                    b.Property<string>("providerId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("providerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("serviceName")
                         .HasColumnType("nvarchar(100)");
@@ -194,29 +196,6 @@ namespace WebApi.Migrations
                     b.ToTable("BusinessServices");
                 });
 
-            modelBuilder.Entity("WebApi.Models.FileModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BusinessId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FileUpload");
-                });
-
             modelBuilder.Entity("WebApi.Models.ProviderModel", b =>
                 {
                     b.Property<int>("id")
@@ -224,8 +203,9 @@ namespace WebApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("businessId")
-                        .HasColumnType("int");
+                    b.Property<string>("businessId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(100)");

@@ -24,7 +24,7 @@ namespace WebApi.Models
         [Column(TypeName = "text")]
         public string weekvalue { get; set; }
 
-        [Column(TypeName = "nvarchar(250)")]
+        [Column(TypeName = "int")]
         public int businessId { get; set; }
 
     }

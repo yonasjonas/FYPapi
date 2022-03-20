@@ -10,8 +10,20 @@ namespace WebApi.Models
 {
     public class FileModel
     {
+        internal object[] businessId;
+
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public int BusinessId { get; set; }
+        [Required]
+        public string Type { get; set; }
+        [Required]
         public string FileName { get; set; }
-        public IFormFile FormFile  { get; set; }        
+
+        [Required]
+        [NotMappedAttribute]
+        public IFormFile FormFile  { get; set; }
 
     }
 
