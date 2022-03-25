@@ -12,17 +12,26 @@ namespace WebApi.Models
         [Key]
         public int id { get; set; }
 
+        [Column(TypeName = "int")]
+        public int BusinessId { get; set; }
+        
+        [Column(TypeName = "int")]
+        public int ProviderId { get; set; }
+
         [Column(TypeName = "nvarchar(100)")]
-        public string businessName { get; set; }
+        public string Name { get; set; }
 
-        [Column(TypeName = "nvarchar(250)")]
-        public string date { get; set; }
+        [Column(TypeName = "nvarchar(100)")]
+        public string Email { get; set; }
+
+        [Column(TypeName = "nvarchar(100)")]
+        public string Phone { get; set; }
+
+        [Column(TypeName = "nvarchar(500)")]
+        public string BookingStartTime { get; set; }
 
         [Column(TypeName = "int")]
-        public int businessId { get; set; }
-
-        [Column(TypeName = "int")]
-        public int serviceId { get; set; }
+        public int BookingDuration { get; set; }
 
         
 

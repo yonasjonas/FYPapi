@@ -77,7 +77,8 @@ namespace WebApi.Controllers
             _context.Booking.Add(bookingService);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBooking", new { id = bookingService.id }, bookingService);
+            //return CreatedAtAction("GetBooking", new { id = bookingService.id }, bookingService);
+            return Ok("My message");
         }
 
         // DELETE: api/Booking/5
