@@ -16,7 +16,7 @@ namespace WebApi.Models
         public int Id { get; set; }
         [Required]
         public int BusinessId { get; set; }
-        [Required]
+        public int ProviderId { get; set; }
         public string Type { get; set; }
         [Required]
         public string FileName { get; set; }

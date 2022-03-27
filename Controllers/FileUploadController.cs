@@ -77,12 +77,24 @@ namespace WebApi.Controllers
             try
             {
 
+                string path = "";
+
                 string fileName = Path.GetRandomFileName();
-                
-                string path = Path.Combine(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId, file.Type + "." + data.Files[0].FileName.Substring(data.Files[0].FileName.Length - 3));
+
+                if(file.Type == "providerImage")
+                {
+                    path = Path.Combine(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId + @"\provider\", file.Type + "_" + file.ProviderId + "." + data.Files[0].FileName.Substring(data.Files[0].FileName.Length - 3));
+                    createdirectory(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId + @"\provider\");
+                }
+                else
+                {
+                    path = Path.Combine(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId, file.Type + "." + data.Files[0].FileName.Substring(data.Files[0].FileName.Length - 3));
+                    createdirectory(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId);
+                }
+
 
                 deleteFileIfExist(path);
-                createdirectory(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId);
+                
 
 
 

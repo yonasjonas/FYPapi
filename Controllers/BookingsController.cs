@@ -12,7 +12,7 @@ using WebApi.Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("/bookings")]
+    [Route("/api/bookings")]
     public class BookingsController : BaseController
     {
         public readonly DataContext _context;
@@ -26,6 +26,12 @@ namespace WebApi.Controllers
         public async Task<ActionResult<IEnumerable<BookingsModel>>> GetBookingServices()
         {
             return await _context.Booking.ToListAsync();
+        }
+
+        [HttpGet("business/{businessId}")]
+        public async Task<ActionResult<IEnumerable<BookingsModel>>> GetBookingServices(int businessId)
+        {
+            return await _context.Booking.Where(x => x.BusinessId == businessId).ToListAsync();
         }
 
         // GET: api/Bookings/5

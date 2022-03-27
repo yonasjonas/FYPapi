@@ -10,7 +10,7 @@ using WebApi.Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api/accounts")]
     public class AccountsController : BaseController
     {
         private readonly IAccountService _accountService;
@@ -95,7 +95,6 @@ namespace WebApi.Controllers
             return Ok(new { message = "Password reset successful, you can now login" });
         }
 
-        [Authorize(Role.Admin)]
         [HttpGet]
         public ActionResult<IEnumerable<AccountResponse>> GetAll()
         {

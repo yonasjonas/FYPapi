@@ -13,7 +13,7 @@ using WebApi.Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api")]
+    [Route("api/services")]
     public class ServicesController : BaseController
     {
         public readonly DataContext _context;
@@ -27,6 +27,12 @@ namespace WebApi.Controllers
         public async Task<ActionResult<IEnumerable<BusinessServiceModel>>> GetBusinessServices()
         {
             return await _context.BusinessServices.ToListAsync();
+        }
+
+        [HttpGet("business/{businessId}")]
+        public async Task<ActionResult<IEnumerable<BusinessServiceModel>>> GetBusinessServices(int businessId)
+        {
+            return await _context.BusinessServices.Where(x => x.businessId == businessId).ToListAsync();
         }
 
         // GET: api/BusinessServices/5

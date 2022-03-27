@@ -13,7 +13,7 @@ using WebApi.Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("/providers")]
+    [Route("api/providers")]
     public class ProvidersController : BaseController
     {
         public readonly DataContext _context;
@@ -23,6 +23,12 @@ namespace WebApi.Controllers
             _context = context;
         }
 
+        [HttpGet("business/{businessId}")]
+        public async Task<ActionResult<IEnumerable<ProviderModel>>> GetProviderServices(int businessId)
+        {
+            return await _context.ProviderServices.Where(x => x.businessId == businessId).ToListAsync();
+        }
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProviderModel>>> GetProviderServices()
         {
@@ -34,19 +40,6 @@ namespace WebApi.Controllers
         public async Task<ActionResult<ProviderModel>> GetProviderService(int id)
         {
             var providerService = await _context.ProviderServices.FindAsync(id);
-
-            if (providerService == null)
-            {
-                return NotFound();
-            }
-
-            return providerService;
-        }
-
-        [HttpGet("business/{businessId}")]
-        public async Task<ActionResult<ProviderModel>> GetProviderServiceByBusinessID(int businessId)
-        {
-            var providerService = await _context.ProviderServices.FirstOrDefaultAsync(i => i.businessId == businessId);
 
             if (providerService == null)
             {

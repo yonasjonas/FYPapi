@@ -13,7 +13,7 @@ using WebApi.Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("/businessManagers")]
+    [Route("/api/businessManagers")]
     public class BusinessManagersController : BaseController
     {
         public readonly DataContext _context;
