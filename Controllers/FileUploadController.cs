@@ -5,6 +5,8 @@ using System.IO;
 using WebApi.Models;
 using WebApi.Helpers;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp;
 
 namespace WebApi.Controllers
 {
@@ -69,6 +71,24 @@ namespace WebApi.Controllers
 
         }
 
+        public void CustomCrop(string filePath, IFormFile blob, int width, int height)
+        {
+            try
+            {
+                using (var image = Image.Load(blob.OpenReadStream()))
+                {
+                    image.Mutate(x => x.Crop(new Rectangle((image.Width - width) / 2, (image.Height - height) / 2, width, height)));
+                    //deleteFileIfExist(filePath);
+                    image.Save(filePath);
+                }
+            }
+            catch (Exception)
+            {
+                
+            }
+        }
+
+
 
 
         [HttpPost("image/file")]
@@ -78,37 +98,56 @@ namespace WebApi.Controllers
             {
 
                 string path = "";
+                string systemFileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.'));
+                file.FileName = file.Type + "." + systemFileExtenstion;
 
-                string fileName = Path.GetRandomFileName();
-
-                if(file.Type == "providerImage")
+                if (file.Type == "providerImage")
                 {
-                    path = Path.Combine(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId + @"\provider\", file.Type + "_" + file.ProviderId + "." + data.Files[0].FileName.Substring(data.Files[0].FileName.Length - 3));
-                    createdirectory(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId + @"\provider\");
+                   
+                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\provider\", file.Type + "_" + file.ProviderId + "." + systemFileExtenstion);
+
+                    createdirectory(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\provider\");
+                    CustomCrop(path, data.Files[0], 200, 200);
                 }
-                else
+                else if (file.Type == "businessInformationProfile")
                 {
-                    path = Path.Combine(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId, file.Type + "." + data.Files[0].FileName.Substring(data.Files[0].FileName.Length - 3));
-                    createdirectory(@"C:\Users\jonas.samaitis\Documents\dev\fp\BookingServicesFrontEnd\public\business\" + file.BusinessId);
+
+                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId, file.Type + "." + systemFileExtenstion);
+                    createdirectory(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId);
+                    CustomCrop(path, data.Files[0], 200, 200);
                 }
+                else if (file.Type == "serviceImage")
+                {
 
+                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\service\", file.Type + "_" + file.ProviderId + "." + systemFileExtenstion);
 
-                deleteFileIfExist(path);
+                    createdirectory(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\service\");
+                    CustomCrop(path, data.Files[0], 200, 200);
+                }
+                else if (file.Type == "businessCoverImage")
+                {
+
+                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId, file.Type + "." + systemFileExtenstion);
+                    createdirectory(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId);
+
+                    CustomCrop(path, data.Files[0], 20, 300);
+
+                }
                 
 
 
 
-                using (Stream stream = new FileStream(path, FileMode.Create))
-                {
+                //using (Stream stream = new FileStream(path, FileMode.Create))
+                //{
 
                     //file.
-                    file.FormFile = data.Files[0];
-                    file.FormFile.CopyTo(stream);
-                }
+                    //file.FormFile = data.Files[0];
+                    //file.FormFile.CopyTo(stream);
+                //}
 
-                file.FileName = file.Type + "." + data.Files[0].FileName.Substring(data.Files[0].FileName.Length - 3);
+                
 
-                _context.FileUpload.Add(file);
+                //_context.FileUpload.Add(file);
                 await _context.SaveChangesAsync();
 
                 //return CreatedAtAction("GetBooking", new { id = bookingService.id }, bookingService);
