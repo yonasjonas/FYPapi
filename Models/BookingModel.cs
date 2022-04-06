@@ -14,9 +14,18 @@ namespace WebApi.Models
 
         [Column(TypeName = "int")]
         public int BusinessId { get; set; }
-        
+
+        [Column(TypeName = "int")]
+        public int ServiceId { get; set; }
+
+        [Column(TypeName = "nvarchar(100)")]
+        public int ServiceName { get; set; }
+
         [Column(TypeName = "int")]
         public int ProviderId { get; set; }
+
+        [Column(TypeName = "nvarchar(100)")]
+        public int ProviderName { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
         public string Name { get; set; }

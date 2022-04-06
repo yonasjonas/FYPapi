@@ -28,6 +28,7 @@ namespace WebApi.Services
         void VerifyEmail(string token);
         void ForgotPassword(ForgotPasswordRequest model, string origin);
         void ValidateResetToken(ValidateResetTokenRequest model);
+        void SendBookingEmail(string email, string name, int serviceId);
         void ResetPassword(ResetPasswordRequest model);
         IEnumerable<AccountResponse> GetAll();
         AccountResponse GetById(int id);
@@ -386,6 +387,21 @@ namespace WebApi.Services
                 html: $@"<h4>Verify Email</h4>
                          <p>Thanks for registering!</p>
                          {message}"
+            );
+        }
+
+        public void SendBookingEmail(string email, string name, int ServiceId)
+        {
+            string message;
+            if (!string.IsNullOrEmpty(email))
+                message = $@"<p>Congratulations {name} you just made booking request for $service </p>";
+            else
+                message = "<p>If you don't know your password you can reset it via the <code>/accounts/forgot-password</code> api route.</p>";
+
+            _emailService.Send(
+                to: email,
+                subject: "Booking Confirmation",
+                html: $@"{message}"
             );
         }
 

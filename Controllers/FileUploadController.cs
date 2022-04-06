@@ -78,7 +78,7 @@ namespace WebApi.Controllers
                 using (var image = Image.Load(blob.OpenReadStream()))
                 {
                     image.Mutate(x => x.Crop(new Rectangle((image.Width - width) / 2, (image.Height - height) / 2, width, height)));
-                    //deleteFileIfExist(filePath);
+                    deleteFileIfExist(filePath);
                     image.Save(filePath);
                 }
             }
@@ -98,13 +98,13 @@ namespace WebApi.Controllers
             {
 
                 string path = "";
-                string systemFileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.'));
-                file.FileName = file.Type + "." + systemFileExtenstion;
+                string systemFileExtenstion = ".jpg";
+                file.FileName = file.Type + systemFileExtenstion;
 
                 if (file.Type == "providerImage")
                 {
                    
-                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\provider\", file.Type + "_" + file.ProviderId + "." + systemFileExtenstion);
+                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\provider\", file.Type + "_" + file.ProviderId + systemFileExtenstion);
 
                     createdirectory(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\provider\");
                     CustomCrop(path, data.Files[0], 200, 200);
@@ -112,25 +112,25 @@ namespace WebApi.Controllers
                 else if (file.Type == "businessInformationProfile")
                 {
 
-                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId, file.Type + "." + systemFileExtenstion);
+                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId, file.Type + systemFileExtenstion);
                     createdirectory(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId);
                     CustomCrop(path, data.Files[0], 200, 200);
                 }
                 else if (file.Type == "serviceImage")
                 {
 
-                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\service\", file.Type + "_" + file.ProviderId + "." + systemFileExtenstion);
+                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\service\", file.Type + "_" + file.ProviderId + systemFileExtenstion);
 
                     createdirectory(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId + @"\service\");
-                    CustomCrop(path, data.Files[0], 200, 200);
+                    CustomCrop(path, data.Files[0], 300, 200);
                 }
-                else if (file.Type == "businessCoverImage")
+                else if (file.Type == "businessInformationCover")
                 {
 
-                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId, file.Type + "." + systemFileExtenstion);
+                    path = Path.Combine(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId, file.Type + systemFileExtenstion);
                     createdirectory(@"C:\home\site\wwwroot\wwwroot\business\" + file.BusinessId);
 
-                    CustomCrop(path, data.Files[0], 20, 300);
+                    CustomCrop(path, data.Files[0], 1920, 300);
 
                 }
                 
@@ -156,7 +156,7 @@ namespace WebApi.Controllers
             }
             catch (Exception)            {
 
-                return StatusCode(StatusCodes.Status500InternalServerError); ;
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             

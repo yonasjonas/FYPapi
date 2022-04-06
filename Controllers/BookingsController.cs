@@ -9,16 +9,19 @@ using System.Threading.Tasks;
 using WebApi.Helpers;
 using WebApi.Models;
 using WebApi.Services;
+
 namespace WebApi.Controllers
 {
     [ApiController]
     [Route("/api/bookings")]
     public class BookingsController : BaseController
     {
+        private readonly IAccountService _accountService;
         public readonly DataContext _context;
 
-        public BookingsController(DataContext context)
+        public BookingsController(DataContext context, IAccountService accountService)
         {
+            _accountService = accountService;
             _context = context;
         }
 
@@ -84,6 +87,7 @@ namespace WebApi.Controllers
             await _context.SaveChangesAsync();
 
             //return CreatedAtAction("GetBooking", new { id = bookingService.id }, bookingService);
+            _accountService.SendBookingEmail(bookingService.Email, bookingService.Name, bookingService.ServiceId);
             return Ok("My message");
         }
 
