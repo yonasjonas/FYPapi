@@ -19,13 +19,13 @@ namespace WebApi.Models
         public int ServiceId { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
-        public int ServiceName { get; set; }
+        public string ServiceName { get; set; }
 
         [Column(TypeName = "int")]
         public int ProviderId { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
-        public int ProviderName { get; set; }
+        public string ProviderName { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
         public string Name { get; set; }
@@ -42,7 +42,12 @@ namespace WebApi.Models
         [Column(TypeName = "int")]
         public int BookingDuration { get; set; }
 
-        
+        [Column(TypeName = "nvarchar(50)")]
+        public string Accepted { get; set; }
+
+
+
+
 
     }
 

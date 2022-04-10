@@ -29,6 +29,8 @@ namespace WebApi.Services
         void ForgotPassword(ForgotPasswordRequest model, string origin);
         void ValidateResetToken(ValidateResetTokenRequest model);
         void SendBookingEmail(string email, string name, int serviceId);
+        void SendAcceptBookingEmail(string email, string name, int serviceId);
+        void SendRejectBookingEmail(string email, string name, int serviceId);
         void ResetPassword(ResetPasswordRequest model);
         IEnumerable<AccountResponse> GetAll();
         AccountResponse GetById(int id);
@@ -162,6 +164,28 @@ namespace WebApi.Services
 
             // hash password
             account.PasswordHash = BC.HashPassword(model.Password);
+
+            BusinessInfoModel businessInfo = new BusinessInfoModel();
+
+            
+
+            businessInfo.BusinessName = account.BusinessName;
+            businessInfo.Email = account.Email;
+            businessInfo.Phone = account.Phone;
+            businessInfo.Description = account.Description;
+            businessInfo.Address1 = account.Address1;
+            businessInfo.Address2 = account.Address2;
+            businessInfo.County = account.County;
+            businessInfo.Country = account.Country;
+            businessInfo.IsVerified = account.IsVerified;
+
+            //businessInfo
+
+
+
+
+            // save account
+            _context.BusinessInfo.Add(businessInfo);
 
             // save account
             _context.Accounts.Add(account);
@@ -401,6 +425,32 @@ namespace WebApi.Services
             _emailService.Send(
                 to: email,
                 subject: "Booking Confirmation",
+                html: $@"{message}"
+            );
+        } public void SendAcceptBookingEmail(string email, string name, int ServiceId)
+        {
+            string message;
+            if (!string.IsNullOrEmpty(email))
+                message = $@"<p>Congratulations {name} you booking was accepted $service </p>";
+            else
+                message = "<p>If you don't know your password you can reset it via the <code>/accounts/forgot-password</code> api route.</p>";
+
+            _emailService.Send(
+                to: email,
+                subject: "Congratulations! Booking Was Accepted",
+                html: $@"{message}"
+            );
+        } public void SendRejectBookingEmail(string email, string name, int ServiceId)
+        {
+            string message;
+            if (!string.IsNullOrEmpty(email))
+                message = $@"<p>Apologies {name} but provider has rejected your booking </p>";
+            else
+                message = "<p>If you don't know your password you can reset it via the <code>/accounts/forgot-password</code> api route.</p>";
+
+            _emailService.Send(
+                to: email,
+                subject: "Apologies. Your booking was rejected",
                 html: $@"{message}"
             );
         }

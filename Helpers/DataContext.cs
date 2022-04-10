@@ -8,6 +8,7 @@ namespace WebApi.Helpers
     public class DataContext : DbContext
     {
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<BusinessInfoModel> BusinessInfo { get; set; }
         public DbSet<BusinessServiceModel> BusinessServices { get; set; }
         public DbSet<ProviderModel> ProviderServices { get; set; }
         public DbSet<BusinessModel> Businesses { get; set; }

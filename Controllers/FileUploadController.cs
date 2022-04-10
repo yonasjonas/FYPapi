@@ -53,13 +53,13 @@ namespace WebApi.Controllers
         static public void deleteFileIfExist(string path)
         {
 
-            /*try
+            try
             {
                 // Check if file exists with its full path    
-                if (File.Exists(path))
+                if (System.IO.File.Exists(path))
                 {
                     // If file found, delete it    
-                    File.Delete(path);
+                    System.IO.File.Delete(path);
                     Console.WriteLine("File deleted.");
                 }
                 else Console.WriteLine("File not found");
@@ -67,17 +67,28 @@ namespace WebApi.Controllers
             catch (Exception e)
             {
 
-            }*/
+            }
 
         }
 
         public void CustomCrop(string filePath, IFormFile blob, int width, int height)
         {
+            
             try
             {
+               
                 using (var image = Image.Load(blob.OpenReadStream()))
                 {
-                    image.Mutate(x => x.Crop(new Rectangle((image.Width - width) / 2, (image.Height - height) / 2, width, height)));
+
+
+                    //int width = image.Width / 2;
+                    if (image.Height < height) {
+                        height = image.Height;
+                    }
+
+                    //int height = image.Height / 2;
+                    //image.Mutate(x => x.Resize(width, height));
+                    image.Mutate(x => x.Resize(width * 2, 0).Crop(new Rectangle((image.Width - width) / 2, (image.Height - height) / 2, width, height)));
                     deleteFileIfExist(filePath);
                     image.Save(filePath);
                 }

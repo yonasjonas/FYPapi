@@ -61,6 +61,16 @@ namespace WebApi.Controllers
             _context.Entry(bookingService).State = EntityState.Modified;
             try
             {
+                if (bookingService.Accepted == "true")
+                {
+                    _accountService.SendAcceptBookingEmail(bookingService.Email, bookingService.Name, bookingService.ServiceId);
+                }
+
+                if (bookingService.Accepted == "false")
+                {
+                    _accountService.SendRejectBookingEmail(bookingService.Email, bookingService.Name, bookingService.ServiceId);
+                }
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
