@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.Helpers;
 
 namespace WebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220411191412_businessinfo3")]
+    partial class businessinfo3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +39,6 @@ namespace WebApi.Migrations
 
                     b.Property<string>("BusinessName")
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(250)");
@@ -148,9 +147,6 @@ namespace WebApi.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("BusinessName")
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Category")
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Country")

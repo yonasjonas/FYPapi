@@ -29,6 +29,9 @@ namespace WebApi.Entities
 
         [Column(TypeName = "nvarchar(250)")]
         public string County { get; set; }
+        
+        [Column(TypeName = "nvarchar(250)")]
+        public string Category { get; set; }
 
         [Column(TypeName = "nvarchar(250)")]
         public string Country { get; set; }

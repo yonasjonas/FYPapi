@@ -27,6 +27,8 @@ namespace WebApi.Models
         [Column(TypeName = "nvarchar(250)")]
         public string Country { get; set; }
         [Column(TypeName = "nvarchar(250)")]
+        public string Category { get; set; }
+        [Column(TypeName = "nvarchar(250)")]
         public bool IsVerified { get; set; }
     }
 }

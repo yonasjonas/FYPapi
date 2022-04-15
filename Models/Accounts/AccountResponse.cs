@@ -14,6 +14,7 @@ namespace WebApi.Models.Accounts
         public string Address2 { get; set; }
         public string County { get; set; }
         public string Country { get; set; }
+        public string Category { get; set; }
         public string Role { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
