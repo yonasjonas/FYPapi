@@ -9,7 +9,6 @@ namespace WebApi.Models
 {
     public class BookingsModel
     {
-        [Key]
         public int id { get; set; }
 
         [Column(TypeName = "int")]
