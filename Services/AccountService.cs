@@ -24,7 +24,7 @@ namespace WebApi.Services
         AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
         AuthenticateResponse RefreshToken(string token, string ipAddress);
         void RevokeToken(string token, string ipAddress);
-        string Register(RegisterRequest model, string origin);
+        void Register(RegisterRequest model, string origin);
         void VerifyEmail(string token);
         void ForgotPassword(ForgotPasswordRequest model, string origin);
         void ValidateResetToken(ValidateResetTokenRequest model);
@@ -153,14 +153,15 @@ namespace WebApi.Services
             throw new NotImplementedException();
         }
 
-        public string Register(RegisterRequest model, string origin)
+        public void Register(RegisterRequest model, string origin)
         {
             // validate
             if (_context.Accounts.Any(x => x.Email == model.Email))
             {
                 // send already registered error in email to prevent account enumeration
                 sendAlreadyRegisteredEmail(model.Email, origin);
-                return "Email already registered. Check your email";
+                throw new NoConnectionException("Email Already Registered");
+                //return "Email already registered. Check your email";
             }
 
             // map model to new account object
@@ -177,8 +178,8 @@ namespace WebApi.Services
 
             BusinessInfoModel businessInfo = new BusinessInfoModel();
 
-            
 
+            businessInfo.BusinessId = account.Id;
             businessInfo.BusinessName = account.BusinessName;
             businessInfo.Email = account.Email;
             businessInfo.Phone = account.Phone;
@@ -196,15 +197,17 @@ namespace WebApi.Services
 
 
             // save account
-            _context.BusinessInfo.Add(businessInfo);
+            
 
             // save account
             _context.Accounts.Add(account);
             _context.SaveChanges();
-
+            int id = account.Id; // Yes it's here
+            businessInfo.BusinessId = id;
+            _context.BusinessInfo.Add(businessInfo);
+            _context.SaveChanges();
             // send email
             sendVerificationEmail(account, origin);
-            return "Success";
         }
 
         public void VerifyEmail(string token)

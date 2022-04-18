@@ -83,12 +83,12 @@ namespace WebApi.Controllers
 
                     //int width = image.Width / 2;
                     if (image.Height < height) {
-                        height = image.Height;
+                        //height = image.Height;
                     }
 
                     //int height = image.Height / 2;
                     //image.Mutate(x => x.Resize(width, height));
-                    image.Mutate(x => x.Resize(width * 2, 0).Crop(new Rectangle((image.Width - width) / 2, (image.Height - height) / 2, width, height)));
+                    //image.Mutate(x => x.Resize(width * 2, 0).Crop(new Rectangle((image.Width - width) / 2, (image.Height - height) / 2, width, height)));
                     deleteFileIfExist(filePath);
                     image.Save(filePath);
                 }
