@@ -36,7 +36,7 @@ namespace WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<BusinessInfoModel>>> GetBusinessServices(int id)
         {
-            return await _context.BusinessInfo.Where(x => x.Id == id).ToListAsync();
+            return await _context.BusinessInfo.Where(x => x.BusinessId == id).ToListAsync();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace WebApi.Services
         void VerifyEmail(string token);
         void ForgotPassword(ForgotPasswordRequest model, string origin);
         void ValidateResetToken(ValidateResetTokenRequest model);
-        void SendBookingEmail(string email, string name, int serviceId);
+        void SendBookingEmail(BookingsModel bookingService);
         void SendAcceptBookingEmail(string email, string name, int serviceId);
         void SendRejectBookingEmail(string email, string name, int serviceId);
         void ResetPassword(ResetPasswordRequest model);
@@ -412,7 +412,12 @@ namespace WebApi.Services
             {
                 var verifyUrl = $"{origin}/verify-email?token={account.VerificationToken}";
                 message = $@"<p>Please click the below link to verify your email address:</p>
-                             <p><a href=""{verifyUrl}"">{verifyUrl}</a></p>";
+                             <p>
+                        <a href=""{verifyUrl}"" style='display:table;margin:auto;background-color: #eb6400; 
+border-radius: 4px; color: #ffffff; display: inline-block; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: bold; 
+line-height: 50px; text-align: center; text-decoration: none; width: 200px; -webkit-text-size-adjust: none;'>
+Verify Your Account
+</a></ p>";
             }
             else
             {
@@ -429,16 +434,17 @@ namespace WebApi.Services
             );
         }
 
-        public void SendBookingEmail(string email, string name, int ServiceId)
+        public void SendBookingEmail(BookingsModel bookingService)
         {
             string message;
-            if (!string.IsNullOrEmpty(email))
-                message = $@"<p>Congratulations {name} you just made booking request for $service </p>";
+            if (!string.IsNullOrEmpty(bookingService.Email))
+                message = $@"<p>Congratulations {bookingService.Name} you just made booking request for {bookingService.ServiceName}  </p>
+                <p>{bookingService.ProviderName} will get in touch soon </p>";
             else
-                message = "<p>Else message from sendbookingemail</p>";
+                message = "";
 
             _emailService.Send(
-                to: email,
+                to: bookingService.Email,
                 subject: "Booking Confirmation",
                 html: $@"{message}"
             );
@@ -446,7 +452,7 @@ namespace WebApi.Services
         {
             string message;
             if (!string.IsNullOrEmpty(email))
-                message = $@"<p>Congratulations {name} your booking was accepted. Please arive at your agreed destination and agreed time. </p>";
+                message = $@"<p>Congratulations {name} your booking was accepted. Please arive at at  agreed time. </p>";
             else
                 message = "<p>If you don't know your password you can reset it via the <code>/accounts/forgot-password</code> api route.</p>";
 

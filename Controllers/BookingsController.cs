@@ -97,7 +97,7 @@ namespace WebApi.Controllers
             await _context.SaveChangesAsync();
 
             //return CreatedAtAction("GetBooking", new { id = bookingService.id }, bookingService);
-            _accountService.SendBookingEmail(bookingService.Email, bookingService.Name, bookingService.ServiceId);
+            _accountService.SendBookingEmail(bookingService);
             return Ok("My message");
         }
 

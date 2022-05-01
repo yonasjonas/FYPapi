@@ -14,7 +14,7 @@ namespace WebApi.Models
         public string Email { get; set; }
         [Column(TypeName = "nvarchar(250)")]
         public string Phone { get; set; }
-        [Column(TypeName = "nvarchar(250)")]
+        [Column(TypeName = "text")]
         public string Description { get; set; }
         [Column(TypeName = "nvarchar(250)")]
         public string Address1 { get; set; }
