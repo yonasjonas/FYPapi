@@ -12,6 +12,7 @@ using System.Linq;
 using WebApi.Helpers;
 using WebApi.Middleware;
 using WebApi.Services;
+using Stripe;
 
 namespace WebApi
 {
@@ -27,17 +28,14 @@ namespace WebApi
         // add services to the DI container
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>();
-           
+            services.AddDbContext<DataContext>();           
             services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.IgnoreNullValues = true);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c => { c.OperationFilter<SwaggerFileOperationFilter>();});
-
             // configure strongly typed settings object
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
             // configure DI for application services
-            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUserAccountService, UserAccountService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IBusinessServicesService, BusinessServicesService>();
             services.AddScoped<IProvidersService, ProvidersService>();
@@ -54,6 +52,9 @@ namespace WebApi
         // configure the HTTP request pipeline
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
+
+            //Stripe API key
+            StripeConfiguration.ApiKey = "sk_test_lpWGLDj3KmD49Q1hWe3jr0HL";
             // migrate database changes on startup (includes initial db creation)
             // context.Database.Migrate();
 
@@ -63,6 +64,7 @@ namespace WebApi
 
 
             app.UseRouting();
+
 
             //app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyHeader());
             // global cors policy
@@ -77,7 +79,7 @@ namespace WebApi
 
             // custom jwt auth middleware
             app.UseMiddleware<JwtMiddleware>();
-
+            app.UseStaticFiles();
             app.UseEndpoints(x => x.MapControllers());
         
        }

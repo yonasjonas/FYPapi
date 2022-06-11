@@ -16,10 +16,10 @@ namespace WebApi.Controllers
     [Route("/api/bookings")]
     public class BookingsController : BaseController
     {
-        private readonly IAccountService _accountService;
+        private readonly IUserAccountService _accountService;
         public readonly DataContext _context;
 
-        public BookingsController(DataContext context, IAccountService accountService)
+        public BookingsController(DataContext context, IUserAccountService accountService)
         {
             _accountService = accountService;
             _context = context;

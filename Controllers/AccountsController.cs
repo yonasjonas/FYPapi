@@ -13,11 +13,11 @@ namespace WebApi.Controllers
     [Route("/api/accounts")]
     public class AccountsController : BaseController
     {
-        private readonly IAccountService _accountService;
+        private readonly IUserAccountService _accountService;
         private readonly IMapper _mapper;
 
         public AccountsController(
-            IAccountService accountService,
+            IUserAccountService accountService,
             IMapper mapper)
         {
             _accountService = accountService;

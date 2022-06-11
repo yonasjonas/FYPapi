@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Services
 {
-    public interface IAccountService
+    public interface IUserAccountService
     {
         AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
         AuthenticateResponse RefreshToken(string token, string ipAddress);
@@ -39,14 +39,14 @@ namespace WebApi.Services
         void Delete(int id);
     }
 
-    public class AccountService : IAccountService
+    public class UserAccountService : IUserAccountService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         private readonly AppSettings _appSettings;
         private readonly IEmailService _emailService;
 
-        public AccountService(
+        public UserAccountService(
             DataContext context,
             IMapper mapper,
             IOptions<AppSettings> appSettings,
