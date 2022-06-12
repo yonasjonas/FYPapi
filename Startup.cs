@@ -13,6 +13,11 @@ using WebApi.Helpers;
 using WebApi.Middleware;
 using WebApi.Services;
 using Stripe;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 
 namespace WebApi
 {
@@ -28,13 +33,13 @@ namespace WebApi
         // add services to the DI container
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //services.AddMvc().AddNewtonsoftJson();
             services.AddDbContext<DataContext>();           
             services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.IgnoreNullValues = true);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c => { c.OperationFilter<SwaggerFileOperationFilter>();});
-            // configure strongly typed settings object
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            // configure DI for application services
             services.AddScoped<IUserAccountService, UserAccountService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IBusinessServicesService, BusinessServicesService>();
@@ -44,8 +49,6 @@ namespace WebApi
             services.AddScoped<IBusinessManagers, BusinessManagers>();
             services.AddScoped<IFileUploadService, FileUploadService>();
             services.AddScoped<IBusinessInfo, BusinessInfo>();
-
-
             services.AddCors();
         }
 
