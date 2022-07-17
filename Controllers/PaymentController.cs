@@ -4,13 +4,21 @@ using System.Collections.Generic;
 using Stripe;
 using Stripe.Checkout;
 using Newtonsoft.Json;
+using WebApi.Helpers;
+using WebApi.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
+
     [Route("api/payment/create-checkout-session/")]
     [ApiController]
     public class CheckoutApiController : Controller
     {
+
+        
+
         [HttpPost]
         public ActionResult Create()
         {
@@ -58,13 +66,21 @@ namespace WebApi.Controllers
     [ApiController]
     public class PaymentIntentApiController : Controller
     {
+
+        public readonly DataContext _context;
+
+        public PaymentIntentApiController(DataContext context)
+        {
+            _context = context;
+        }
         [HttpPost]
         public ActionResult Create(PaymentIntentCreateRequest request)
-        {
+        {            BusinessServiceModel businessService = _context.BusinessServices.Find(Int32.Parse(request.Items[0].Id));
+
             var paymentIntentService = new PaymentIntentService();
             var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions
             {
-                Amount = CalculateOrderAmount(request.Items),
+                Amount = businessService.price * 100,
                 Currency = "eur",
                 AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
                 {
@@ -72,15 +88,18 @@ namespace WebApi.Controllers
                 },
             });
 
-            return Json(new { clientSecret = paymentIntent.ClientSecret });
+            return Json(new { clientSecret = paymentIntent.ClientSecret, businessService });
         }
 
-        private int CalculateOrderAmount(Item[] items)
+        private int CalculateOrderAmountAsync(string id)
         {
+
+
+            var businessService = _context.BusinessServices.FindAsync(id);
             // Replace this constant with a calculation of the order's amount
             // Calculate the order total on the server to prevent
             // people from directly manipulating the amount on the client
-            return 1400;
+            return 1;
         }
 
         public class Item
@@ -95,6 +114,7 @@ namespace WebApi.Controllers
             public Item[] Items { get; set; }
         }
     }
+
 }
 
 
